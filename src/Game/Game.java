@@ -6,7 +6,6 @@ import java.util.Stack;
 
 public class Game {
 
-    private final int WRONG_VALUE=-1;
     private Field field;
     private Scanner sc;
     private  int x,y;
@@ -22,15 +21,12 @@ public class Game {
         return setStep(x,y,c);
     }
 
-    public void showField(){
-        field.show();
-    }
 
     public void start() {
 
         sc = new Scanner(System.in);
         System.out.println("Tic-Tac-Toe. LETS START:");
-        showField();
+        field.show();
 
         while ( true ) {
             System.out.println("Please, make your stroke:");
@@ -43,8 +39,8 @@ public class Game {
                 while(!sc.hasNextInt())sc.next();
                 y = sc.nextInt()-1;
 
-               if (! field.validation(x,y))System.out.println("Incorrect values. Try again");
-            }while( ! field.validation(x,y) );
+               if (! field.isValid(x, y))System.out.println("Incorrect values. Try again");
+            }while( ! field.isValid(x, y) );
 
             if (checkTheEndGameState(setStep(x, y, Field.CHARACTER_X))) break;
 //            history.push(field.getInstance());
@@ -52,7 +48,7 @@ public class Game {
             System.out.println("Ok.Check the enemy stroke ");
             if (checkTheEndGameState(generateNewStep(Field.CHARACTER_O))) break;
 //            history.push(field);
-            showField();
+            field.show();
         }
     }
 
@@ -72,7 +68,7 @@ public class Game {
     private void notification(String str) {
         System.out.println(str);
         System.out.println("SEE YOUR FIELD!");
-        showField();
+        field.show();
 //        System.out.println();
 //        System.out.println("See the history of the game:");
 //        showHistory();

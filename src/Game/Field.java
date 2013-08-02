@@ -22,43 +22,39 @@ public class Field {
     public void show(){
         for(int i = 0; i < DEFAULT_FIELD_SIZE; i++){
             for(int j =0; j < DEFAULT_FIELD_SIZE; j++){
-                System.out.print("[" + getValues(i,j) + "]");
+                System.out.print("[" + cells[i][j] + "]");
             }
             System.out.println();
         }
     }
 
-    public Field getInstance(){
-        return this;
-    }
-
-    public boolean validation(int x, int y) {
+    public boolean isValid(int x, int y) {
         if ( (x >= DEFAULT_FIELD_SIZE) || (y >= DEFAULT_FIELD_SIZE) || (x<0) || (y<0) )return false;
-        if ( getValues(x,y) == DEFAULT_CHAR )return true;
+        if ( cells[x][y] == DEFAULT_CHAR )return true;
         else return false;
     }
 
     public int setStep(int x, int y, char c) {
 
-        if ( validation(x,y) ) setValue(x,y,c);
+        if ( isValid(x, y) ) cells[x][y] = c;
         else return Field.ERROR_CODE;
 
         if ( checkForWinner(Field.CHARACTER_X) ) return Field.X_WIN_CODE;
         if ( checkForWinner(Field.CHARACTER_O) ) return Field.O_WIN_CODE;
-        if ( isEmpty() ) return Field.DRAW_CODE;
+        if ( isFull() ) return Field.DRAW_CODE;
 
         return Field.SUCCESS_CODE;
     }
 
-    public boolean isEmpty(){
+    public boolean isFull(){
         for (int i = 0; i < DEFAULT_FIELD_SIZE; i++)
             for (int j = 0; j < DEFAULT_FIELD_SIZE; j++)
-                if ( getValues(i,j) == DEFAULT_CHAR ) return false;
+                if ( cells[i][j] == DEFAULT_CHAR ) return false;
         return true;
     }
 
     public boolean isEmptyCell( int x, int y) {
-        return ( getValues(x,y) == DEFAULT_CHAR ? true: false );
+        return ( cells[x][y] == DEFAULT_CHAR ? true: false );
     }
 
     public boolean checkForWinner(char c){
@@ -68,32 +64,23 @@ public class Field {
 
         for(int i = 0; i < DEFAULT_FIELD_SIZE; i++){
             for(int j =0; j < DEFAULT_FIELD_SIZE; j++){
-                if ( getValues(i,j) == c )++count1;
-                if ( getValues(j,i) ==c )++count2;
+                if ( cells[i][j] == c )++count1;
+                if ( cells[j][i] ==c )++count2;
             }
             if ( (count1 >= DEFAULT_FIELD_SIZE) || (count2 >= DEFAULT_FIELD_SIZE) )return true;
             count1 = 0;
             count2 = 0;
         }
 
-        if ( ( (getValues(0,0)==c) && (getValues(1,1)==c) && (getValues(2,2)==c) ) ||
-                ( (getValues(2,0)==c) && (getValues(1,1)==c) && (getValues(0,2)==c) ) )return true;
+        if ( ( ( cells[0][0] == c ) && ( cells[1][1] == c ) && ( cells[2][2] == c ) ) ||
+                ( ( cells[2][0] == c ) && ( cells[1][1] == c ) && ( cells[0][2] == c ) ) )return true;
         return false;
     }
-
-    private void setValue(int x, int y , char c) {
-         cells[x][y] = c;
-    }
-
-    private char getValues (int x, int y) {
-        return cells[x][y];
-    }
-
 
     private void initField(){
         for(int i = 0; i < DEFAULT_FIELD_SIZE; i++)
             for(int j =0; j < DEFAULT_FIELD_SIZE; j++)
-                setValue(i,j,DEFAULT_CHAR);
+                cells[i][j] = DEFAULT_CHAR;
     }
 
 
