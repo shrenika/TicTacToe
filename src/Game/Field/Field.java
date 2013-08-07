@@ -41,6 +41,10 @@ public class Field {
         return true;
     }
 
+    public char getValue (int x, int y){
+        return cells[x][y];
+    }
+
     private void initField(){
         for(int i = 0; i < DEFAULT_FIELD_SIZE; i++)
             for(int j =0; j < DEFAULT_FIELD_SIZE; j++)
@@ -50,10 +54,6 @@ public class Field {
     public Field() {
         cells = new char[DEFAULT_FIELD_SIZE][DEFAULT_FIELD_SIZE];
         initField();
-    }
-
-    public char getValue (int x, int y){
-        return cells[x][y];
     }
 
 }

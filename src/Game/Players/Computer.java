@@ -6,12 +6,11 @@ import java.util.Random;
 
 public class Computer extends Player {
 
+    private static final Random n = new Random();
     private int x, y;
-    private Random n;
 
     public Computer(String name) {
         super(name);
-        n = new Random();
     }
 
     @Override
